@@ -42,6 +42,8 @@ module Featurable
   end
 
   def feature_enabled?(name)
+    return true if %w[captain_integration captain_integration_v2 captain_tasks].include?(name.to_s)
+
     send("feature_#{name}?")
   end
 

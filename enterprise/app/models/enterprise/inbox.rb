@@ -18,7 +18,7 @@ module Enterprise::Inbox
   private
 
   def more_responses?
-    account.usage_limits[:captain][:responses][:current_available].positive?
+    true
   end
 
   def get_agent_ids_over_assignment_limit(limit)

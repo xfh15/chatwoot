@@ -70,6 +70,13 @@ export function usePolicy() {
     // return false;
     // This supersedes everything
     if (!checkPermissions(perms)) return false;
+    if (
+      ['captain_integration', 'captain_integration_v2', 'captain_tasks'].includes(
+        flag
+      )
+    ) {
+      return true;
+    }
     if (!checkInstallationType(installation)) return false;
 
     if (isACustomBrandedInstance.value) {
@@ -107,6 +114,13 @@ export function usePolicy() {
   const shouldShowPaywall = featureFlag => {
     const flag = unref(featureFlag);
     if (!flag) return false;
+    if (
+      ['captain_integration', 'captain_integration_v2', 'captain_tasks'].includes(
+        flag
+      )
+    ) {
+      return false;
+    }
 
     if (isACustomBrandedInstance.value) {
       // custom branded instances never show paywall

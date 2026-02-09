@@ -48,6 +48,13 @@ export const getters = {
     return diffDays <= TRIAL_PERIOD_DAYS;
   },
   isFeatureEnabledonAccount: $state => (id, featureName) => {
+    if (
+      ['captain_integration', 'captain_integration_v2', 'captain_tasks'].includes(
+        featureName
+      )
+    ) {
+      return true;
+    }
     const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
   },

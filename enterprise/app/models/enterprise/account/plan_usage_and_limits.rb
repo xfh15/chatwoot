@@ -9,8 +9,8 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
       agents: agent_limits.to_i,
       inboxes: get_limits(:inboxes).to_i,
       captain: {
-        documents: get_captain_limits(:documents),
-        responses: get_captain_limits(:responses)
+        documents: unlimited_captain_limits(:documents),
+        responses: unlimited_captain_limits(:responses)
       }
     }
   end
@@ -68,6 +68,22 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     {
       total_count: total_count,
       current_available: (total_count - consumed).clamp(0, total_count),
+      consumed: consumed
+    }
+  end
+
+  def unlimited_captain_limits(type)
+    consumed = if type == :documents
+                 custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i || 0
+               else
+                 custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
+               end
+
+    consumed = 0 if consumed.negative?
+
+    {
+      total_count: ChatwootApp.max_limit,
+      current_available: ChatwootApp.max_limit,
       consumed: consumed
     }
   end

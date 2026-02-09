@@ -40,9 +40,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
   end
 
   def perform_firecrawl_crawl(document)
-    captain_usage_limits = document.account.usage_limits[:captain] || {}
-    document_limit = captain_usage_limits[:documents] || {}
-    crawl_limit = [document_limit[:current_available] || 10, 500].min
+    crawl_limit = ChatwootApp.max_limit
 
     Captain::Tools::FirecrawlService
       .new
