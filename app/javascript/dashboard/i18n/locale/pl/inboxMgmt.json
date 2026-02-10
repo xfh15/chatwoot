@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Cześć",
         "AGENT_MESSAGE": "Witam"
       },
-      "BRANDING_TEXT": "Napędzany przez Chatwoot",
+      "BRANDING_TEXT": "Napędzany przez Z-SOFT",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Mogelijk gemaakt door Chatwoot",
+      "BRANDING_TEXT": "Mogelijk gemaakt door Z-SOFT",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

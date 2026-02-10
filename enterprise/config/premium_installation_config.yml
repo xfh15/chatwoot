@@ -8,9 +8,9 @@
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://z-soft.co.jp/'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://z-soft.co.jp/'
 - name: BRAND_NAME
   value: 'Chatwoot'
 - name: TERMS_URL
