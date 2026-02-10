@@ -37,8 +37,14 @@ module Llm::Config
     def configure_ruby_llm
       RubyLLM.configure do |config|
         if openrouter?
-          config.openrouter_api_key = system_api_key if system_api_key.present?
-          config.openrouter_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+          if system_api_key.present?
+            if config.respond_to?(:openrouter_api_key=)
+              config.openrouter_api_key = system_api_key
+            else
+              config.openai_api_key = system_api_key
+            end
+          end
+          config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
         else
           config.openai_api_key = system_api_key if system_api_key.present?
           config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
