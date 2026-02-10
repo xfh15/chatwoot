@@ -13,7 +13,12 @@ Rails.application.config.to_prepare do
 
       provider_class = RubyLLM::Provider.providers[provider_name.to_sym]
       raise unless provider_class
-      provider_class = RubyLLM::Provider.providers[:openai] unless provider_class.respond_to?(:connection)
+
+      provider = begin
+        provider_class.new
+      rescue ArgumentError
+        provider_class
+      end
 
       model = RubyLLM::Model::Info.new(
         'id' => model_id,
@@ -22,7 +27,7 @@ Rails.application.config.to_prepare do
         'source' => 'custom'
       )
 
-      [model, provider_class]
+      [model, provider]
     end
   end
 end
