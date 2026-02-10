@@ -1,20 +1,24 @@
 Rails.application.config.to_prepare do
-  Llm::Config.initialize!
+  singleton = RubyLLM::Models.singleton_class
+  next if singleton.method_defined?(:resolve_without_openrouter_fallback)
 
-  models = RubyLLM.models
-  model_id = 'x-ai/grok-4.1-fast'
-  provider = 'openrouter'
+  singleton.class_eval do
+    alias_method :resolve_without_openrouter_fallback, :resolve
 
-  next if models.all.any? { |model| model.id == model_id && model.provider == provider }
+    def resolve(model_id, provider: nil, **kwargs)
+      resolve_without_openrouter_fallback(model_id, provider: provider, **kwargs)
+    rescue RubyLLM::ModelNotFoundError
+      provider_name = provider&.to_s
+      raise unless provider_name == 'openrouter'
 
-  template = models.all.find { |model| model.provider == provider } || models.all.first
-  next unless template&.respond_to?(:to_h)
+      model = RubyLLM::Model::Info.new(
+        'id' => model_id,
+        'name' => model_id,
+        'provider' => provider_name,
+        'source' => 'custom'
+      )
 
-  data = template.to_h
-  data['id'] = model_id
-  data['name'] = model_id
-  data['provider'] = provider
-  data['source'] = 'custom'
-
-  models.instance_variable_get(:@models) << RubyLLM::Model::Info.new(data)
+      [model, provider_name]
+    end
+  end
 end
