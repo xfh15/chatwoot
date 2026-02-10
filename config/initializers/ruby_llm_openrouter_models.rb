@@ -15,17 +15,13 @@ Rails.application.config.to_prepare do
       raise unless provider_class
 
       model_id = model_id.to_s
-      provider = begin
-        provider_class.new(RubyLLM.config)
-      rescue ArgumentError
-        provider_class
-      end
+      provider = provider_class.new(RubyLLM.config)
 
       model = RubyLLM::Model::Info.new(
-        'id' => model_id,
-        'name' => model_id,
-        'provider' => provider_name,
-        'source' => 'custom'
+        id: model_id,
+        name: model_id,
+        provider: provider_name,
+        source: 'custom'
       )
 
       [model, provider]
