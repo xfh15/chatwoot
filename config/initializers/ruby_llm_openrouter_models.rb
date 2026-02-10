@@ -14,6 +14,7 @@ Rails.application.config.to_prepare do
       provider_class = RubyLLM::Provider.providers[provider_name.to_sym]
       raise unless provider_class
 
+      model_id = model_id.to_s
       provider = begin
         provider_class.new(RubyLLM.config)
       rescue ArgumentError
