@@ -11,6 +11,9 @@ Rails.application.config.to_prepare do
       provider_name = provider&.to_s
       raise unless provider_name == 'openrouter'
 
+      provider_class = RubyLLM::Provider.providers[provider_name.to_sym]
+      raise unless provider_class
+
       model = RubyLLM::Model::Info.new(
         'id' => model_id,
         'name' => model_id,
@@ -18,7 +21,7 @@ Rails.application.config.to_prepare do
         'source' => 'custom'
       )
 
-      [model, provider_name]
+      [model, provider_class]
     end
   end
 end
