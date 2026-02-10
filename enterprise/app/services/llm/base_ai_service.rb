@@ -15,7 +15,14 @@ class Llm::BaseAiService
   end
 
   def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(model: model).with_temperature(temperature)
+    options = { model: model }
+
+    if Llm::Config.openrouter?
+      options[:provider] = :openrouter
+      options[:assume_exists] = true
+    end
+
+    RubyLLM.chat(**options).with_temperature(temperature)
   end
 
   private

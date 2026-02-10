@@ -4,6 +4,10 @@ module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
 
   class << self
+    def openrouter?
+      endpoint = openai_endpoint
+      endpoint.present? && endpoint.include?('openrouter.ai')
+    end
     def initialized?
       @initialized ||= false
     end
@@ -32,8 +36,13 @@ module Llm::Config
 
     def configure_ruby_llm
       RubyLLM.configure do |config|
-        config.openai_api_key = system_api_key if system_api_key.present?
-        config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+        if openrouter?
+          config.openrouter_api_key = system_api_key if system_api_key.present?
+          config.openrouter_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+        else
+          config.openai_api_key = system_api_key if system_api_key.present?
+          config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+        end
         config.logger = Rails.logger
       end
     end
