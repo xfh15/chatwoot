@@ -16,7 +16,8 @@ module Llm::Models
     end
 
     def valid_model_for?(feature, model_name)
-      models_for(feature).include?(model_name.to_s)
+      # Allow any non-blank model name to avoid hardcoding limits.
+      model_name.present?
     end
 
     def feature_config(feature_key)
