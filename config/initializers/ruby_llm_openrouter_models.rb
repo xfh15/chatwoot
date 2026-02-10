@@ -15,7 +15,7 @@ Rails.application.config.to_prepare do
       raise unless provider_class
 
       provider = begin
-        provider_class.new
+        provider_class.new(RubyLLM.config)
       rescue ArgumentError
         provider_class
       end
