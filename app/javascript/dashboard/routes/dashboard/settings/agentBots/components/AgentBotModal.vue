@@ -3,7 +3,7 @@ import { ref, computed, reactive, watch } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { required, helpers, url } from '@vuelidate/validators';
+import { required, helpers } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useToggle } from '@vueuse/core';
@@ -48,6 +48,24 @@ const formState = reactive({
 const [showAccessToken, toggleAccessToken] = useToggle();
 const accessToken = ref('');
 
+const isValidWebhookUrl = value => {
+  if (!helpers.req(value)) return true;
+
+  try {
+    const parsedUrl = new URL(value);
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) return false;
+
+    const hostname = parsedUrl.hostname;
+    if (hostname === 'localhost') return true;
+    if (/^\d{1,3}(\.\d{1,3}){3}$/.test(hostname)) return true;
+    if (/^\[[0-9a-fA-F:]+\]$/.test(hostname)) return true;
+
+    return hostname.includes('.');
+  } catch (error) {
+    return false;
+  }
+};
+
 const v$ = useVuelidate(
   {
     botName: {
@@ -63,7 +81,7 @@ const v$ = useVuelidate(
       ),
       url: helpers.withMessage(
         () => t('AGENT_BOTS.FORM.ERRORS.VALID_URL'),
-        url
+        isValidWebhookUrl
       ),
     },
   },
