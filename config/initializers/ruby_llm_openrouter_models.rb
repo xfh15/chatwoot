@@ -13,6 +13,7 @@ Rails.application.config.to_prepare do
 
       provider_class = RubyLLM::Provider.providers[provider_name.to_sym]
       raise unless provider_class
+      provider_class = RubyLLM::Provider.providers[:openai] unless provider_class.respond_to?(:connection)
 
       model = RubyLLM::Model::Info.new(
         'id' => model_id,
