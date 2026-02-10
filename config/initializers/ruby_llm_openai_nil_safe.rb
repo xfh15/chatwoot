@@ -49,12 +49,12 @@ Rails.application.config.to_prepare do
           end
 
           class << self
-            next if method_defined?(:normalize_temperature_without_nil_guard)
+            unless method_defined?(:normalize_temperature_without_nil_guard)
+              alias_method :normalize_temperature_without_nil_guard, :normalize_temperature
 
-            alias_method :normalize_temperature_without_nil_guard, :normalize_temperature
-
-            def normalize_temperature(temperature, model_id)
-              normalize_temperature_without_nil_guard(temperature, model_id.to_s)
+              def normalize_temperature(temperature, model_id)
+                normalize_temperature_without_nil_guard(temperature, model_id.to_s)
+              end
             end
           end
         end
