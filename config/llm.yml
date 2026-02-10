@@ -7,6 +7,10 @@ aproviders:
     display_name: 'Gemini'
 
 models:
+  x-ai/grok-4.1-fast:
+    provider: openrouter
+    display_name: 'Grok 4.1 Fast (OpenRouter)'
+    credit_multiplier: 1
   gpt-4.1:
     provider: openai
     display_name: 'GPT-4.1'
@@ -68,6 +72,7 @@ features:
   editor:
     models:
       [
+        x-ai/grok-4.1-fast,
         gpt-4.1-mini,
         gpt-4.1-nano,
         gpt-5-mini,
@@ -82,6 +87,7 @@ features:
   assistant:
     models:
       [
+        x-ai/grok-4.1-fast,
         gpt-5-mini,
         gpt-4.1,
         gpt-5.1,
@@ -95,6 +101,7 @@ features:
   copilot:
     models:
       [
+        x-ai/grok-4.1-fast,
         gpt-5-mini,
         gpt-4.1,
         gpt-5.1,
