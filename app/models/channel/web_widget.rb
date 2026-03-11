@@ -80,6 +80,13 @@ class Channel::WebWidget < ApplicationRecord
     "
   end
 
+  def public_chat_url
+    base_url = ENV.fetch('FRONTEND_URL', '').chomp('/')
+    return '' if base_url.blank? || website_token.blank?
+
+    "#{base_url}/widget?website_token=#{website_token}"
+  end
+
   def validate_pre_chat_options
     return if pre_chat_form_options.with_indifferent_access['pre_chat_fields'].present?
 

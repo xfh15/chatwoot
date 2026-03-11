@@ -19,6 +19,7 @@ const qrCodes = reactive({
   whatsapp: '',
   messenger: '',
   telegram: '',
+  website: '',
 });
 
 const currentInbox = computed(() =>
@@ -112,6 +113,7 @@ async function generateQRCode(platform, identifier) {
       whatsapp: id => `https://wa.me/${id}`,
       messenger: id => `https://m.me/${id}`,
       telegram: id => `https://t.me/${id}`,
+      website: id => id,
     };
 
     const url = platformUrls[platform](identifier);
@@ -146,6 +148,10 @@ async function generateQRCodes() {
   // Telegram
   if (isATelegramChannel.value && currentInbox.value.bot_name) {
     await generateQRCode('telegram', currentInbox.value.bot_name);
+  }
+
+  if (currentInbox.value.public_chat_url) {
+    await generateQRCode('website', currentInbox.value.public_chat_url);
   }
 }
 
@@ -182,6 +188,27 @@ onMounted(() => {
             v-if="currentInbox.web_widget_script"
             :script="currentInbox.web_widget_script"
           />
+        </div>
+        <div
+          v-if="currentInbox.public_chat_url"
+          class="w-full max-w-2xl mx-auto mt-8"
+        >
+          <p class="mt-2 mb-3 text-sm text-n-slate-9">
+            {{ $t('INBOX_MGMT.FINISH.WEBSITE_QR_INSTRUCTION') }}
+          </p>
+          <woot-code lang="html" :script="currentInbox.public_chat_url" />
+        </div>
+        <div
+          v-if="currentInbox.public_chat_url && qrCodes.website"
+          class="flex flex-col gap-3 items-center mt-6"
+        >
+          <div class="rounded-lg shadow outline-1 outline-n-strong outline">
+            <img
+              :src="qrCodes.website"
+              alt="Website Chat QR Code"
+              class="rounded-lg size-48"
+            />
+          </div>
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
           <woot-code

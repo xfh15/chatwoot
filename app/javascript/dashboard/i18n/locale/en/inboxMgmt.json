@@ -541,6 +541,7 @@
       "BUTTON_TEXT": "Take me there",
       "MORE_SETTINGS": "More settings",
       "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox.",
+      "WEBSITE_QR_INSTRUCTION": "Share or scan this public chat link to open the chat page directly on mobile",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
@@ -691,6 +692,8 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
+      "PUBLIC_CHAT_LINK_TITLE": "Public Chat Link",
+      "PUBLIC_CHAT_LINK_SUBTITLE": "Use this link in QR codes or share it directly to open the chat page without embedding the widget.",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
