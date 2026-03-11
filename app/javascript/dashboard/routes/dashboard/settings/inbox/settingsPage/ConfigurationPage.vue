@@ -53,6 +53,20 @@ export default {
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
     },
+    publicChatUrl() {
+      if (this.inbox.public_chat_url) {
+        return this.inbox.public_chat_url;
+      }
+
+      const baseUrl = window.chatwootConfig?.hostURL?.replace(/\/$/, '');
+      const websiteToken = this.inbox.website_token;
+
+      if (!baseUrl || !websiteToken) {
+        return '';
+      }
+
+      return `${baseUrl}/widget?website_token=${websiteToken}`;
+    },
   },
   watch: {
     inbox() {
@@ -215,7 +229,7 @@ export default {
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.PUBLIC_CHAT_LINK_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.PUBLIC_CHAT_LINK_SUBTITLE')"
       >
-        <woot-code :script="inbox.public_chat_url" />
+        <woot-code :script="publicChatUrl" />
       </SettingsSection>
 
       <SettingsSection

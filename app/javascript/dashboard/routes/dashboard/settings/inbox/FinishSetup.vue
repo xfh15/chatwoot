@@ -26,6 +26,21 @@ const currentInbox = computed(() =>
   store.getters['inboxes/getInbox'](route.params.inbox_id)
 );
 
+const publicChatUrl = computed(() => {
+  if (currentInbox.value.public_chat_url) {
+    return currentInbox.value.public_chat_url;
+  }
+
+  const baseUrl = window.chatwootConfig?.hostURL?.replace(/\/$/, '');
+  const websiteToken = currentInbox.value.website_token;
+
+  if (!baseUrl || !websiteToken) {
+    return '';
+  }
+
+  return `${baseUrl}/widget?website_token=${websiteToken}`;
+});
+
 // Use useInbox composable with the inbox ID
 const {
   isAWhatsAppCloudChannel,
@@ -150,8 +165,8 @@ async function generateQRCodes() {
     await generateQRCode('telegram', currentInbox.value.bot_name);
   }
 
-  if (currentInbox.value.public_chat_url) {
-    await generateQRCode('website', currentInbox.value.public_chat_url);
+  if (publicChatUrl.value) {
+    await generateQRCode('website', publicChatUrl.value);
   }
 }
 
@@ -190,16 +205,16 @@ onMounted(() => {
           />
         </div>
         <div
-          v-if="currentInbox.public_chat_url"
+          v-if="publicChatUrl"
           class="w-full max-w-2xl mx-auto mt-8"
         >
           <p class="mt-2 mb-3 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.WEBSITE_QR_INSTRUCTION') }}
           </p>
-          <woot-code :script="currentInbox.public_chat_url" />
+          <woot-code :script="publicChatUrl" />
         </div>
         <div
-          v-if="currentInbox.public_chat_url && qrCodes.website"
+          v-if="publicChatUrl && qrCodes.website"
           class="flex flex-col gap-3 items-center mt-6"
         >
           <div class="rounded-lg shadow outline-1 outline-n-strong outline">
