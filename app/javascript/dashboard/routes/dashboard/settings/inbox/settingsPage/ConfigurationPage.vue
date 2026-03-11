@@ -215,7 +215,7 @@ export default {
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.PUBLIC_CHAT_LINK_TITLE')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.PUBLIC_CHAT_LINK_SUBTITLE')"
       >
-        <woot-code :script="inbox.public_chat_url" lang="html" />
+        <woot-code :script="inbox.public_chat_url" />
       </SettingsSection>
 
       <SettingsSection

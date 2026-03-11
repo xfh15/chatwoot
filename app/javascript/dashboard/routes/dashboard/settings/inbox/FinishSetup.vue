@@ -196,7 +196,7 @@ onMounted(() => {
           <p class="mt-2 mb-3 text-sm text-n-slate-9">
             {{ $t('INBOX_MGMT.FINISH.WEBSITE_QR_INSTRUCTION') }}
           </p>
-          <woot-code lang="html" :script="currentInbox.public_chat_url" />
+          <woot-code :script="currentInbox.public_chat_url" />
         </div>
         <div
           v-if="currentInbox.public_chat_url && qrCodes.website"
